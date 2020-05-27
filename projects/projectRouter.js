@@ -1,9 +1,9 @@
-const express = require('express').Router;
+const router = require('express').Router();
 const db = require('./project-model');
 
-const restricted = require('../auth/authenticate-middleware');
+// const restricted = require('../auth/authenticate-middleware');
 
-router.get('/', restricted, (req, res) => {
+router.get('/', (req, res) => {
 	db
 		.getProjects()
 		.then((projects) => {
@@ -14,24 +14,19 @@ router.get('/', restricted, (req, res) => {
 		});
 });
 
-router.get('/:id'),
-	restricted,
-	(req, res) => {
-		db
-			.findById(req.params.id)
-			.then((project) => {
-				if (project) {
-					res.status(200).json(project);
-				} else {
-					res.status(404).json({ message: error.message });
-				}
-			})
-			.catch((error) => {
-				res.status(500).json({ message: error.message });
-			});
-	};
+router.get('/:id', (req, res) => {
+	db
+		.findById(req.params.id)
+		.then((projects) => {
+			res.status(200).json(projects);
+		})
+		.catch((error) => {
+			console.log(error);
+			res.status(500).json({ message: error.message });
+		});
+});
 
-router.post('/', restricted, (req, res) => {
+router.post('/', (req, res) => {
 	db
 		.add(req.body)
 		.then((project) => {
@@ -42,7 +37,7 @@ router.post('/', restricted, (req, res) => {
 		});
 });
 
-router.delete('/:id', restricted, (req, res) => {
+router.delete('/:id', (req, res) => {
 	db
 		.remove(req.params.id)
 		.then((project) => {
@@ -55,7 +50,7 @@ router.delete('/:id', restricted, (req, res) => {
 		});
 });
 
-router.put('/:id', restricted, (req, res) => {
+router.put('/:id', (req, res) => {
 	const changes = req.body;
 	db
 		.update(req.params.id, changes)
