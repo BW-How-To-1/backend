@@ -3,7 +3,7 @@ exports.up = function(knex) {
 		.createTable('projects', (tbl) => {
 			tbl.increments();
 			tbl.string('title', 128).notNullable();
-			tbl.string('bodyText', 128).notNullable();
+			tbl.string('bodyText', 350).notNullable();
 			tbl.string('image', 255);
 			tbl.string('likes', 128);
 			tbl.string('author', 128).notNullable();

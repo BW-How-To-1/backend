@@ -4,6 +4,7 @@ const helmet = require('helmet');
 
 const auth = require('../auth/authenticate-middleware');
 const authRouter = require('../auth/authenticate');
+const projectRouter = require('../projects/projectRouter');
 
 const server = express();
 
@@ -16,5 +17,6 @@ server.get('/', (req, res) => {
 });
 
 server.use('/api/auth', authRouter);
+server.use('/projects', auth, projectRouter);
 
 module.exports = server;
