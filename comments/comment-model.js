@@ -2,7 +2,6 @@ const db = require('../data/dbConfig');
 
 module.exports = {
 	getComments,
-	find,
 	findById,
 	addComment,
 	update,
