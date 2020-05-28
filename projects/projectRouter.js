@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const db = require('./project-model');
-
-// const restricted = require('../auth/authenticate-middleware');
+const addCommentDb = require('../comments/comment-model');
 
 router.get('/', (req, res) => {
 	db
@@ -62,7 +61,19 @@ router.put('/:id', (req, res) => {
 			}
 		})
 		.catch((error) => {
-			res.status(500).json({ message: 'An error occured while updating the project' });
+			res.status(500).json({ message: 'An error occured while updating the project', error });
+		});
+});
+
+router.post('/comments/:id', (req, res) => {
+	req.body.projects_id = req.params.id;
+	addCommentDb
+		.addComment(req.body)
+		.then((comment) => {
+			res.status(201).json({ CommentID: comment });
+		})
+		.catch((error) => {
+			res.status(500).json({ error: error.message });
 		});
 });
 

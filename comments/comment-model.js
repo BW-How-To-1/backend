@@ -1,22 +1,25 @@
 const db = require('../data/dbConfig');
 
 module.exports = {
+	getComments,
 	find,
 	findById,
-	add,
+	addComment,
 	update,
 	remove
 };
 
-function find() {
-	return db('comments');
+function getComments() {
+	return db('comments')
+		.join('projects', 'comments.projects_id', 'projects.id')
+		.select('comments.comments', 'projects.title');
 }
 
 function findById(id) {
 	return db('comments').where({ id }).first();
 }
 
-function add(comment) {
+function addComment(comment) {
 	return db('comments').insert(comment).then(([ id ]) => {
 		return findById(id);
 	});
