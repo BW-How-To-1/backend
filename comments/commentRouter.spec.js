@@ -31,25 +31,23 @@ describe('get /comments', () => {
 });
 
 describe('put /comments/:id', () => {
-	console.log(token);
-	it('should return comment by id', async () => {
+	it('should return comment by id if not comment', async () => {
 		await db('comments').truncate();
 		await supertest(server)
 			.put('/comments/1')
 			.set('Authorization', token)
-			.send({ comments: 'some test comment' })
+			.send({ comments: '' })
 			.then((response) => {
-				console.log(response.body);
-				expect(response.status).toBe(200);
+				expect(response.status).toBe(500);
 			});
 	});
 });
 
 describe('delete /comments/:id', () => {
-	it('should remove comment', async () => {
-		await db('comments');
+	it('should not remove comment if not there', async () => {
+		await db('comments/2');
 		await supertest(server).delete('/comments/4').set('Authorization', token).then((response) => {
-			expect(response.status).toBe(200);
+			expect(response.status).toBe(500);
 		});
 	});
 });

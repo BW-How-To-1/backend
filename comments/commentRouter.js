@@ -2,7 +2,6 @@ const router = require('express').Router();
 const db = require('./comment-model');
 
 router.get('/', (req, res) => {
-	console.log('get working');
 	db
 		.getComments()
 		.then((comments) => {
